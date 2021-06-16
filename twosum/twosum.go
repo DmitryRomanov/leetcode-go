@@ -4,7 +4,7 @@ import "math"
 
 func twoSum(numbers []int, target int) []int {
 	for i := 0; i < len(numbers); i++ {
-		secondIndex := i + binarySearch(numbers[i:], target-numbers[i])
+		secondIndex := binarySearch(numbers, target-numbers[i], i)
 		if secondIndex != -1 {
 			return []int{i + 1, secondIndex + 1}
 		}
@@ -12,8 +12,8 @@ func twoSum(numbers []int, target int) []int {
 	return nil
 }
 
-func binarySearch(numbers []int, target int) int {
-	left := 0
+func binarySearch(numbers []int, target, from int) int {
+	left := from
 	right := len(numbers)
 
 	for (right - left) > 1 {
