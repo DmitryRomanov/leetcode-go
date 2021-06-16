@@ -9,16 +9,20 @@ var (
 func firstBadVersion(n int) int {
 	left := 0
 	right := n
+	currentBad := n
 
-	for (right - left) > 0 {
+	for (right - left) > 1 {
 		medianVaule := int(math.Floor(float64((left + right) / 2)))
 		isBadVersion := isBadVersion(medianVaule)
 
-		if isBadVersion {
-			return medianVaule
+		if !isBadVersion {
+			left = medianVaule
+		} else {
+			right = medianVaule
+			currentBad = medianVaule
 		}
 	}
-	return -1
+	return currentBad
 }
 
 func isBadVersion(version int) bool {
