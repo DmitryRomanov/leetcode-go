@@ -1,13 +1,13 @@
 package firstbad
 
 import (
-	"reflect"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestFirstBadVersion(t *testing.T) {
+	badVersion = 4
+	assert := assert.New(t)
 	result := firstBadVersion(5)
-	if !reflect.DeepEqual(result, 4) {
-		t.Errorf("firstBadVersion = %d", result)
-	}
+	assert.Equal(badVersion, result)
 }
