@@ -4,28 +4,40 @@ import "math"
 
 func searchRange(nums []int, target int) []int {
 	oneValue := findOne(nums, target)
-	firstValue := oneValue
-	lastValue := oneValue
-
-	firstNotEqualValue := firstNotEqual(nums[0:oneValue], target)
-	if firstNotEqualValue >= 0 {
-		firstValue = firstNotEqualValue + 1
+	if oneValue == -1 {
+		return []int{-1, -1}
 	}
 
-	lastNotEqualValue := lastNotEqual(nums[oneValue+1:], target)
-	if lastNotEqualValue >= 0 {
-		lastValue = oneValue + lastNotEqualValue
+	firstResult := oneValue
+	lastResult := oneValue
+
+	firstEqual := firstEqual(nums[0:oneValue], target)
+	if firstEqual >= 0 {
+		firstResult = firstEqual
+	}
+
+	lastEqual := lastEqual(nums[oneValue:], target)
+	if lastEqual >= 0 {
+		lastResult = oneValue + lastEqual
 	}
 
 	return []int{
-		firstValue,
-		lastValue,
+		firstResult,
+		lastResult,
 	}
 }
 
 func findOne(nums []int, target int) int {
 	left := 0
 	right := len(nums)
+
+	if len(nums) == 1 {
+		if nums[0] == target {
+			return 0
+		} else {
+			return -1
+		}
+	}
 
 	for (right - left) > 1 {
 		median := int(math.Floor(float64((right - left) / 2)))
@@ -43,10 +55,64 @@ func findOne(nums []int, target int) int {
 	return -1
 }
 
-func firstNotEqual(nums []int, target int) int {
-	return -1
+func firstEqual(nums []int, target int) int {
+	left := 0
+	right := len(nums) - 1
+	result := -1
+
+	if len(nums) == 1 {
+		if nums[0] == target {
+			return 0
+		} else {
+			return -1
+		}
+	}
+
+	for (right - left) > 1 {
+		median := int(math.Floor(float64((right - left) / 2)))
+		medianValue := nums[median]
+
+		if medianValue == target {
+			result = median
+			right = median
+		}
+		if medianValue < target {
+			right = median
+		} else if medianValue > target {
+			left = median
+		}
+	}
+
+	return result
 }
 
-func lastNotEqual(nums []int, target int) int {
-	return -1
+func lastEqual(nums []int, target int) int {
+	left := 0
+	right := len(nums) - 1
+	result := -1
+
+	if len(nums) == 1 {
+		if nums[0] == target {
+			return 0
+		} else {
+			return -1
+		}
+	}
+
+	for (right - left) > 1 {
+		median := int(math.Floor(float64((right - left) / 2)))
+		medianValue := nums[median]
+
+		if medianValue == target {
+			result = median
+			left = median + 1
+		}
+		if medianValue < target {
+			left = median
+		} else if medianValue > target {
+			right = median
+		}
+	}
+
+	return result
 }
