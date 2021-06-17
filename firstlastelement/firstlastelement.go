@@ -29,26 +29,17 @@ func searchRange(nums []int, target int) []int {
 
 func findOne(nums []int, target int) int {
 	left := 0
-	right := len(nums)
+	right := len(nums) - 1
 
-	if len(nums) == 1 {
-		if nums[0] == target {
-			return 0
-		} else {
-			return -1
-		}
-	}
-
-	for (right - left) > 1 {
-		median := int(math.Floor(float64((right - left) / 2)))
+	for left <= right {
+		median := int(math.Floor(float64((right + left) / 2)))
 		medianValue := nums[median]
-		if medianValue == target {
-			return median
-		}
 		if medianValue < target {
-			left = median
+			left = median + 1
 		} else if medianValue > target {
-			right = median
+			right = median - 1
+		} else {
+			return median
 		}
 	}
 
@@ -60,26 +51,18 @@ func firstEqual(nums []int, target int) int {
 	right := len(nums) - 1
 	result := -1
 
-	if len(nums) == 1 {
-		if nums[0] == target {
-			return 0
-		} else {
-			return -1
-		}
-	}
-
-	for (right - left) > 1 {
-		median := int(math.Floor(float64((right - left) / 2)))
+	for left <= right {
+		median := int(math.Floor(float64((right + left) / 2)))
 		medianValue := nums[median]
 
 		if medianValue == target {
 			result = median
-			right = median
+			right = median - 1
 		}
 		if medianValue < target {
-			right = median
+			left = median + 1
 		} else if medianValue > target {
-			left = median
+			right = median - 1
 		}
 	}
 
@@ -91,16 +74,8 @@ func lastEqual(nums []int, target int) int {
 	right := len(nums) - 1
 	result := -1
 
-	if len(nums) == 1 {
-		if nums[0] == target {
-			return 0
-		} else {
-			return -1
-		}
-	}
-
-	for (right - left) > 1 {
-		median := int(math.Floor(float64((right - left) / 2)))
+	for left <= right {
+		median := int(math.Floor(float64((right + left) / 2)))
 		medianValue := nums[median]
 
 		if medianValue == target {
@@ -108,9 +83,9 @@ func lastEqual(nums []int, target int) int {
 			left = median + 1
 		}
 		if medianValue < target {
-			left = median
+			left = median + 1
 		} else if medianValue > target {
-			right = median
+			right = median - 1
 		}
 	}
 
