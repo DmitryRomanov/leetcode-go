@@ -28,3 +28,9 @@ func TestSearchRangeExample4(t *testing.T) {
 	result := searchRange([]int{5, 7, 7, 7, 8, 8, 10}, 7)
 	assert.Equal([]int{1, 3}, result)
 }
+
+func TestSearchRangeExample5(t *testing.T) {
+	assert := assert.New(t)
+	result := searchRange([]int{5, 7, 8, 8, 10}, 7)
+	assert.Equal([]int{1, 1}, result)
+}
