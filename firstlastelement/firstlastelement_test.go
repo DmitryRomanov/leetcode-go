@@ -61,31 +61,31 @@ func TestSearchRangeExample9(t *testing.T) {
 
 func TestFirstEqualExample1(t *testing.T) {
 	assert := assert.New(t)
-	result := firstEqual([]int{5, 7, 7}, 7)
+	result := firstBorderEqual([]int{5, 7, 7}, 7, LEFT)
 	assert.Equal(1, result)
 }
 
 func TestFirstEqualExample2(t *testing.T) {
 	assert := assert.New(t)
-	result := firstEqual([]int{5, 5, 5}, 7)
+	result := firstBorderEqual([]int{5, 5, 5}, 7, LEFT)
 	assert.Equal(-1, result)
 }
 
 func TestFirstEqualExample3(t *testing.T) {
 	assert := assert.New(t)
-	result := firstEqual([]int{1}, 1)
+	result := firstBorderEqual([]int{1}, 1, LEFT)
 	assert.Equal(0, result)
 }
 
 func TestLastEqualExample1(t *testing.T) {
 	assert := assert.New(t)
-	result := lastEqual([]int{7, 7, 9, 10}, 7)
+	result := firstBorderEqual([]int{7, 7, 9, 10}, 7, RIGHT)
 	assert.Equal(1, result)
 }
 
 func TestLastEqualExample2(t *testing.T) {
 	assert := assert.New(t)
-	result := lastEqual([]int{5, 5, 5}, 7)
+	result := firstBorderEqual([]int{5, 5, 5}, 7, RIGHT)
 	assert.Equal(-1, result)
 }
 

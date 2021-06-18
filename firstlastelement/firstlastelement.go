@@ -11,12 +11,12 @@ func searchRange(nums []int, target int) []int {
 	firstResult := oneValue
 	lastResult := oneValue
 
-	firstEqual := firstEqual(nums[0:oneValue], target)
+	firstEqual := firstBorderEqual(nums[0:oneValue], target, LEFT)
 	if firstEqual >= 0 {
 		firstResult = firstEqual
 	}
 
-	lastEqual := lastEqual(nums[oneValue:], target)
+	lastEqual := firstBorderEqual(nums[oneValue:], target, RIGHT)
 	if lastEqual >= 0 {
 		lastResult = oneValue + lastEqual
 	}
@@ -46,7 +46,14 @@ func findOne(nums []int, target int) int {
 	return -1
 }
 
-func firstEqual(nums []int, target int) int {
+type Direction string
+
+const (
+	RIGHT Direction = "RIGHT"
+	LEFT  Direction = "LEFT"
+)
+
+func firstBorderEqual(nums []int, target int, direction Direction) int {
 	left := 0
 	right := len(nums) - 1
 	result := -1
@@ -57,30 +64,12 @@ func firstEqual(nums []int, target int) int {
 
 		if medianValue == target {
 			result = median
-			right = median - 1
-		}
-		if medianValue < target {
-			left = median + 1
-		} else if medianValue > target {
-			right = median - 1
-		}
-	}
 
-	return result
-}
-
-func lastEqual(nums []int, target int) int {
-	left := 0
-	right := len(nums) - 1
-	result := -1
-
-	for left <= right {
-		median := int(math.Floor(float64((right + left) / 2)))
-		medianValue := nums[median]
-
-		if medianValue == target {
-			result = median
-			left = median + 1
+			if direction == LEFT {
+				right = median - 1
+			} else if direction == RIGHT {
+				left = median + 1
+			}
 		}
 		if medianValue < target {
 			left = median + 1
