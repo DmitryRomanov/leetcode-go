@@ -88,15 +88,3 @@ func TestLastEqualExample2(t *testing.T) {
 	result := firstBorderEqual([]int{5, 5, 5}, 7, RIGHT)
 	assert.Equal(-1, result)
 }
-
-func TestFindOneExample1(t *testing.T) {
-	assert := assert.New(t)
-	result := findOne([]int{1}, 1)
-	assert.Equal(0, result)
-}
-
-func TestFindOneExample2(t *testing.T) {
-	assert := assert.New(t)
-	result := findOne([]int{1, 3}, 1)
-	assert.Equal(0, result)
-}
