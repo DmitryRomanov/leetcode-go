@@ -7,11 +7,17 @@ func maxScore(cardPoints []int, k int) int {
 
 	result := 0
 	temporary := sum(cardPoints[left : right+1])
-	for right < len(cardPoints)-1 {
+	for {
 		result = max(totalPts-temporary, result)
+		if left == len(cardPoints) {
+			break
+		}
 		temporary -= cardPoints[left]
 		left++
 		right++
+		if right == len(cardPoints) {
+			break
+		}
 		temporary += cardPoints[right]
 	}
 	return result
