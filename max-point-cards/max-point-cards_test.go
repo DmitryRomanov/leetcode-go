@@ -34,3 +34,9 @@ func TestMaxScoreExample5(t *testing.T) {
 	result := maxScore([]int{1, 79, 80, 1, 1, 1, 200, 1}, 3)
 	assert.Equal(202, result)
 }
+
+func TestMaxScoreExample6(t *testing.T) {
+	assert := assert.New(t)
+	result := maxScore([]int{96, 90, 41, 82, 39, 74, 64, 50, 30}, 8)
+	assert.Equal(536, result)
+}
