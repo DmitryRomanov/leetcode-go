@@ -10,14 +10,12 @@ func lengthOfLongestSubstring(s string) int {
 	var substring []rune
 	for right < len(s) {
 		letter := stringChars[right]
-		if right > 0 {
-			substring = stringChars[left : right-1]
-		}
 		if strings.ContainsRune(string(substring), letter) {
 			result = max(result, len(substring))
-			left = right
+			left += strings.IndexRune(string(substring), letter) + 1
 		}
 		right++
+		substring = stringChars[left:right]
 	}
 
 	return max(result, len(substring))
