@@ -28,3 +28,21 @@ func TestLengthOfLongestSubstringExample4(t *testing.T) {
 	result := lengthOfLongestSubstring("")
 	assert.Equal(0, result)
 }
+
+func TestLengthOfLongestSubstringExample5(t *testing.T) {
+	assert := assert.New(t)
+	result := lengthOfLongestSubstring(" ")
+	assert.Equal(1, result)
+}
+
+func TestLengthOfLongestSubstringExample6(t *testing.T) {
+	assert := assert.New(t)
+	result := lengthOfLongestSubstring("dvdf")
+	assert.Equal(3, result)
+}
+
+func TestLengthOfLongestSubstringExample7(t *testing.T) {
+	assert := assert.New(t)
+	result := lengthOfLongestSubstring("ckilbkd")
+	assert.Equal(5, result)
+}
