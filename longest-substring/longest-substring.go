@@ -1,24 +1,30 @@
 package longestsubstring
 
-import "strings"
-
 func lengthOfLongestSubstring(s string) int {
-	right := 0
-	result := 0
-	left := 0
-	stringChars := []rune(s)
-	var substring []rune
-	for right < len(s) {
-		letter := stringChars[right]
-		if strings.ContainsRune(string(substring), letter) {
-			result = max(result, len(substring))
-			left += strings.IndexRune(string(substring), letter) + 1
-		}
-		right++
-		substring = stringChars[left:right]
+	if len(s) == 0 {
+		return 0
 	}
 
-	return max(result, len(substring))
+	right := 0
+	left := 0
+	stringChars := []rune(s)
+	hash := make(map[rune]bool)
+	result := 1
+
+	for right < len(s) {
+		rightLetter := stringChars[right]
+		leftLetter := stringChars[left]
+		if !hash[rightLetter] {
+			result = max(result, right-left+1)
+			hash[rightLetter] = true
+			right++
+		} else {
+			hash[leftLetter] = false
+			left++
+		}
+	}
+
+	return result
 }
 
 func max(x, y int) int {
