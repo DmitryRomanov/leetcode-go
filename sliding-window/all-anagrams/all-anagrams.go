@@ -2,18 +2,18 @@ package allanagrams
 
 func findAnagrams(s string, p string) []int {
 	left := 0
-	right := len(p)
-	var result []int
+	right := len(p) - 1
+	result := []int{}
 	stringChars := []rune(s)
 
-	window := stringChars[left:right]
 	sampleHash := calculateHash([]rune(p))
-	windowHash := calculateHash(window)
+	windowHash := calculateHash(stringChars[left:len(p)])
+
+	if isAnagrams(windowHash, sampleHash) {
+		result = append(result, left)
+	}
 
 	for right < len(stringChars)-1 {
-		if isAnagrams(windowHash, sampleHash) {
-			result = append(result, left)
-		}
 		right++
 		char := stringChars[right]
 		j := windowHash[char]
@@ -27,6 +27,9 @@ func findAnagrams(s string, p string) []int {
 		windowHash[prevChar]--
 		left++
 
+		if isAnagrams(windowHash, sampleHash) {
+			result = append(result, left)
+		}
 	}
 	return result
 }
@@ -51,14 +54,17 @@ func isAnagrams(window, sample map[rune]int) bool {
 		}
 	}
 
-	for _, value := range result {
-		if value%2 != 0 {
+	for key := range result {
+		i := sample[key]
+		j := window[key]
+		if i != j {
 			return false
 		}
 	}
 
 	return true
 }
+
 func calculateHash(p []rune) map[rune]int {
 	hash := make(map[rune]int)
 	for _, r := range p {
