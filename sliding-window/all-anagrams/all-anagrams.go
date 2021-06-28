@@ -11,6 +11,9 @@ func findAnagrams(s string, p string) []int {
 	windowHash := calculateHash(window)
 
 	for right < len(stringChars)-1 {
+		if isAnagrams(windowHash, sampleHash) {
+			result = append(result, left)
+		}
 		right++
 		char := stringChars[right]
 		j := windowHash[char]
@@ -24,24 +27,31 @@ func findAnagrams(s string, p string) []int {
 		windowHash[prevChar]--
 		left++
 
-		if isAnagrams(windowHash, sampleHash) {
-			result = append(result, left)
-		}
 	}
 	return result
 }
 
 func isAnagrams(window, sample map[rune]int) bool {
+	result := make(map[rune]int)
 	for key, value := range sample {
-		j := window[key]
+		j := result[key]
 		if j == 0 {
-			window[key] = value
+			result[key] = value
 		} else {
-			window[key] += value
+			result[key] += value
 		}
 	}
 
-	for _, value := range window {
+	for key, value := range window {
+		j := result[key]
+		if j == 0 {
+			result[key] = value
+		} else {
+			result[key] += value
+		}
+	}
+
+	for _, value := range result {
 		if value%2 != 0 {
 			return false
 		}
