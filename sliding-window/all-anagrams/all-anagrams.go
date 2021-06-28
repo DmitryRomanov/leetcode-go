@@ -1,33 +1,63 @@
 package allanagrams
 
-import (
-	"fmt"
-	"sort"
-)
-
 func findAnagrams(s string, p string) []int {
 	left := 0
 	right := len(p)
 	var result []int
 	stringChars := []rune(s)
-	sampleChars := RuneSlice([]rune(p))
-	sort.Sort(sampleChars)
 
-	for right < len(stringChars) {
-		window := RuneSlice(stringChars[left:right])
-		sort.Sort(window)
-		fmt.Println()
-		if sampleChars.Equal(window) {
+	window := stringChars[left:right]
+	sampleHash := calculateHash([]rune(p))
+	windowHash := calculateHash(window)
 
+	for right < len(stringChars)-1 {
+		right++
+		char := stringChars[right]
+		j := windowHash[char]
+		if j == 0 {
+			windowHash[char] = 1
+		} else {
+			windowHash[char]++
+		}
+
+		prevChar := stringChars[left]
+		windowHash[prevChar]--
+		left++
+
+		if isAnagrams(windowHash, sampleHash) {
+			result = append(result, left)
 		}
 	}
 	return result
 }
 
-type RuneSlice []rune
+func isAnagrams(window, sample map[rune]int) bool {
+	for key, value := range sample {
+		j := window[key]
+		if j == 0 {
+			window[key] = value
+		} else {
+			window[key] += value
+		}
+	}
 
-func (p RuneSlice) Len() int           { return len(p) }
-func (p RuneSlice) Less(i, j int) bool { return p[i] < p[j] }
-func (p RuneSlice) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
+	for _, value := range window {
+		if value%2 != 0 {
+			return false
+		}
+	}
 
-func (p RuneSlice) Equal(sample RuneSlice) bool { return false }
+	return true
+}
+func calculateHash(p []rune) map[rune]int {
+	hash := make(map[rune]int)
+	for _, r := range p {
+		j := hash[r]
+		if j == 0 {
+			hash[r] = 1
+		} else {
+			hash[r]++
+		}
+	}
+	return hash
+}
