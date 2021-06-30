@@ -1,64 +1,26 @@
 package subsets
 
-func subsets(nums []int) [][]int {
-	result := [][]int{{}}
+import (
+	"math"
+	"sort"
+)
 
-	for _, v := range nums {
-		for _, j := range result {
-			tempResult := append(j, v)
-			result = append(result, mergeSort(tempResult))
+func subsets(nums []int) [][]int {
+	var result [][]int
+	var variants []int
+
+	count := math.Pow(2, float64(len(nums)))
+	for i := 0; i < int(count); i++ {
+		variants = []int{}
+		for j, v := range nums {
+			mask := 1 << j
+			if (i & mask) != 0 {
+				variants = append(variants, v)
+			}
 		}
+		sort.Ints(variants)
+		result = append(result, variants)
 	}
 
 	return result
-}
-
-func mergeSort(items []int) []int {
-	var num = len(items)
-
-	if num == 1 {
-		return items
-	}
-
-	middle := int(num / 2)
-	var (
-		left  = make([]int, middle)
-		right = make([]int, num-middle)
-	)
-	for i := 0; i < num; i++ {
-		if i < middle {
-			left[i] = items[i]
-		} else {
-			right[i-middle] = items[i]
-		}
-	}
-
-	return merge(mergeSort(left), mergeSort(right))
-}
-
-func merge(left, right []int) (result []int) {
-	result = make([]int, len(left)+len(right))
-
-	i := 0
-	for len(left) > 0 && len(right) > 0 {
-		if left[0] < right[0] {
-			result[i] = left[0]
-			left = left[1:]
-		} else {
-			result[i] = right[0]
-			right = right[1:]
-		}
-		i++
-	}
-
-	for j := 0; j < len(left); j++ {
-		result[i] = left[j]
-		i++
-	}
-	for j := 0; j < len(right); j++ {
-		result[i] = right[j]
-		i++
-	}
-
-	return
 }
