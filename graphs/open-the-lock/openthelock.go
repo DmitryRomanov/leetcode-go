@@ -10,15 +10,24 @@ type Node struct {
 	timestamp int
 }
 
+var (
+	set map[string]struct{}
+	all map[string]struct{}
+)
+
 func openLock(deadends []string, target string) int {
 	var queue []Node
 	queue = append(queue, Node{"0000", 0})
+	all = make(map[string]struct{})
+	all["0000"] = struct{}{}
+	makeDeadEnds(deadends)
+
 	for len(queue) > 0 {
 		node := queue[0]
 		queue = queue[1:]
 		if node.value == target {
 			return node.timestamp
-		} else if contains(deadends, node.value) {
+		} else if isDeadEnd(node.value) {
 			continue
 		} else {
 			queue = append(queue, getNodes(node)...)
@@ -30,15 +39,21 @@ func openLock(deadends []string, target string) int {
 func getNodes(node Node) []Node {
 	var nodes []Node
 	timestamp := node.timestamp + 1
-	digits := []rune(node.value)
-	for i := range digits {
-		nextNodeValue := digits
-		nextNodeValue[i] = turnDigit(nextNodeValue[i], true)
-		nodes = append(nodes, Node{string(nextNodeValue), timestamp})
 
-		prevNodeValue := digits
-		prevNodeValue[i] = turnDigit(prevNodeValue[i], false)
-		nodes = append(nodes, Node{string(prevNodeValue), timestamp})
+	for i, value := range []rune(node.value) {
+		nextNodeValue := []rune(node.value)
+		nextNodeValue[i] = turnDigit(value, true)
+		if !isExists(string(nextNodeValue)) {
+			nodes = append(nodes, Node{string(nextNodeValue), timestamp})
+			all[string(nextNodeValue)] = struct{}{}
+		}
+
+		prevNodeValue := []rune(node.value)
+		prevNodeValue[i] = turnDigit(value, false)
+		if !isExists(string(prevNodeValue)) {
+			nodes = append(nodes, Node{string(prevNodeValue), timestamp})
+			all[string(prevNodeValue)] = struct{}{}
+		}
 	}
 	return nodes
 }
@@ -59,12 +74,19 @@ func turnDigit(digit rune, forward bool) rune {
 	return []rune(fmt.Sprint(value))[0]
 }
 
-func contains(slice []string, item string) bool {
-	set := make(map[string]struct{}, len(slice))
+func makeDeadEnds(slice []string) {
+	set = make(map[string]struct{}, len(slice))
 	for _, s := range slice {
 		set[s] = struct{}{}
 	}
+}
 
+func isDeadEnd(item string) bool {
 	_, ok := set[item]
+	return ok
+}
+
+func isExists(item string) bool {
+	_, ok := all[item]
 	return ok
 }
