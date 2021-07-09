@@ -58,3 +58,53 @@ func TestIsValidBSTExample3(t *testing.T) {
 	})
 	assert.False(result)
 }
+
+func TestIsValidBSTExample4(t *testing.T) {
+	assert := assert.New(t)
+	result := isValidBST(&TreeNode{
+		Val: 120,
+		Left: &TreeNode{
+			Val: 70,
+			Left: &TreeNode{
+				Val: 50,
+				Left: &TreeNode{
+					Val: 20,
+				},
+				Right: &TreeNode{
+					Val: 55,
+				},
+			},
+			Right: &TreeNode{
+				Val: 100,
+				Left: &TreeNode{
+					Val: 75,
+				},
+				Right: &TreeNode{
+					Val: 110,
+				},
+			},
+		},
+		Right: &TreeNode{
+			Val: 140,
+			Left: &TreeNode{
+				Val: 130,
+				Left: &TreeNode{
+					Val: 119,
+				},
+				Right: &TreeNode{
+					Val: 135,
+				},
+			},
+			Right: &TreeNode{
+				Val: 160,
+				Left: &TreeNode{
+					Val: 150,
+				},
+				Right: &TreeNode{
+					Val: 200,
+				},
+			},
+		},
+	})
+	assert.False(result)
+}
