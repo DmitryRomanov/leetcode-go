@@ -11,8 +11,8 @@ func isValidBST(root *TreeNode) bool {
 	return isValidSubBST(
 		root,
 		MinMaxLimits{
-			Min: int(math.Inf(-1)),
-			Max: int(math.Inf(1)),
+			Min: math.MinInt32,
+			Max: math.MaxInt32,
 		})
 }
 
