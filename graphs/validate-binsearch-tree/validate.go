@@ -1,13 +1,25 @@
 package validate_binsearch_tree
 
-func isValidBST(root *TreeNode) bool {
-	if root.Left != nil {
-		if root.Left.Right != nil && root.Left.Right.Val > root.Val {
-			return false
-		}
+import "math"
 
-		if root.Val > root.Left.Val {
-			leftIsValidBST := isValidBST(root.Left)
+type MinMaxLimits struct {
+	Min int
+	Max int
+}
+
+func isValidBST(root *TreeNode) bool {
+	return isValidSubBST(
+		root,
+		MinMaxLimits{
+			Min: int(math.Inf(-1)),
+			Max: int(math.Inf(1)),
+		})
+}
+
+func isValidSubBST(root *TreeNode, limits MinMaxLimits) bool {
+	if root.Left != nil {
+		if root.Val > root.Left.Val && root.Val < limits.Max && root.Val > limits.Min {
+			leftIsValidBST := isValidSubBST(root.Left, MinMaxLimits{Min: Min(root.Val, limits.Min), Max: Max(limits.Max, root.Val)})
 			if !leftIsValidBST {
 				return false
 			}
@@ -17,12 +29,8 @@ func isValidBST(root *TreeNode) bool {
 	}
 
 	if root.Right != nil {
-		if root.Val < root.Right.Val {
-			if root.Right.Left != nil && root.Right.Left.Val < root.Val {
-				return false
-			}
-
-			rightIsValidBST := isValidBST(root.Right)
+		if root.Val < root.Right.Val && root.Val > limits.Max && root.Val < limits.Min {
+			rightIsValidBST := isValidSubBST(root.Right, MinMaxLimits{Min: Min(root.Val, limits.Min), Max: Max(limits.Max, root.Val)})
 			if !rightIsValidBST {
 				return false
 			}
@@ -32,4 +40,20 @@ func isValidBST(root *TreeNode) bool {
 	}
 
 	return true
+}
+
+// Max returns the larger of x or y.
+func Max(x, y int) int {
+	if x < y {
+		return y
+	}
+	return x
+}
+
+// Min returns the smaller of x or y.
+func Min(x, y int) int {
+	if x > y {
+		return y
+	}
+	return x
 }
