@@ -17,43 +17,12 @@ func isValidBST(root *TreeNode) bool {
 }
 
 func isValidSubBST(root *TreeNode, limits MinMaxLimits) bool {
-	if root.Left != nil {
-		if root.Val > root.Left.Val && root.Val < limits.Max && root.Val > limits.Min {
-			leftIsValidBST := isValidSubBST(root.Left, MinMaxLimits{Min: Min(root.Val, limits.Min), Max: Max(limits.Max, root.Val)})
-			if !leftIsValidBST {
-				return false
-			}
-		} else {
-			return false
-		}
+	if root == nil {
+		return true
 	}
 
-	if root.Right != nil {
-		if root.Val < root.Right.Val && root.Val > limits.Max && root.Val < limits.Min {
-			rightIsValidBST := isValidSubBST(root.Right, MinMaxLimits{Min: Min(root.Val, limits.Min), Max: Max(limits.Max, root.Val)})
-			if !rightIsValidBST {
-				return false
-			}
-		} else {
-			return false
-		}
-	}
+	leftIsValid := isValidSubBST(root.Left, MinMaxLimits{Min: limits.Min, Max: root.Val})
+	rightIsValid := isValidSubBST(root.Right, MinMaxLimits{Min: root.Val, Max: limits.Min})
 
-	return true
-}
-
-// Max returns the larger of x or y.
-func Max(x, y int) int {
-	if x < y {
-		return y
-	}
-	return x
-}
-
-// Min returns the smaller of x or y.
-func Min(x, y int) int {
-	if x > y {
-		return y
-	}
-	return x
+	return leftIsValid && rightIsValid && limits.Min > root.Val && root.Val < limits.Max
 }
