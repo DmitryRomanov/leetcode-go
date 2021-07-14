@@ -3,26 +3,28 @@ package validate_binsearch_tree
 import "math"
 
 type MinMaxLimits struct {
-	Min int
-	Max int
+	Min float64
+	Max float64
 }
 
 func isValidBST(root *TreeNode) bool {
-	return isValidSubBST(
-		root,
-		MinMaxLimits{
-			Min: math.MinInt32,
-			Max: math.MaxInt32,
-		})
+	limits := &MinMaxLimits{
+		Min: math.Inf(-1),
+		Max: math.Inf(1),
+	}
+	return isValidSubBST(root, limits)
 }
 
-func isValidSubBST(root *TreeNode, limits MinMaxLimits) bool {
+func isValidSubBST(root *TreeNode, limits *MinMaxLimits) bool {
 	if root == nil {
 		return true
 	}
 
-	leftIsValid := isValidSubBST(root.Left, MinMaxLimits{Min: limits.Min, Max: root.Val})
-	rightIsValid := isValidSubBST(root.Right, MinMaxLimits{Min: root.Val, Max: limits.Min})
+	leftLimit := &MinMaxLimits{Min: limits.Min, Max: float64(root.Val)}
+	leftIsValid := isValidSubBST(root.Left, leftLimit)
 
-	return leftIsValid && rightIsValid && limits.Min > root.Val && root.Val < limits.Max
+	rightLimit := &MinMaxLimits{Min: float64(root.Val), Max: limits.Max}
+	rightIsValid := isValidSubBST(root.Right, rightLimit)
+
+	return leftIsValid && rightIsValid && limits.Min < float64(root.Val) && float64(root.Val) < limits.Max
 }

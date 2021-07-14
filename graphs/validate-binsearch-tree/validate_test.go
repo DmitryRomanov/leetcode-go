@@ -2,6 +2,7 @@ package validate_binsearch_tree
 
 import (
 	"github.com/stretchr/testify/assert"
+	"math"
 	"testing"
 )
 
@@ -133,4 +134,26 @@ func TestIsValidBSTExample5(t *testing.T) {
 		},
 	})
 	assert.True(result)
+}
+
+func TestIsValidBSTExample6(t *testing.T) {
+	assert := assert.New(t)
+	result := isValidBST(&TreeNode{
+		Val: math.MaxInt32,
+	})
+	assert.True(result)
+}
+
+func TestIsValidBSTExample7(t *testing.T) {
+	assert := assert.New(t)
+	result := isValidBST(&TreeNode{
+		Val: 2,
+		Left: &TreeNode{
+			Val: 2,
+		},
+		Right: &TreeNode{
+			Val: 2,
+		},
+	})
+	assert.False(result)
 }
