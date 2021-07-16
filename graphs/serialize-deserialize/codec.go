@@ -2,6 +2,7 @@ package serialize_deserialize
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 )
 
@@ -15,7 +16,7 @@ func Constructor() Codec {
 // Serializes a tree to a single string.
 func (codec *Codec) serialize(root *TreeNode) string {
 	if root == nil {
-		return ""
+		return "null"
 	}
 
 	var result []string
@@ -36,8 +37,26 @@ func (codec *Codec) serialize(root *TreeNode) string {
 
 // Deserializes your encoded data to tree.
 func (codec *Codec) deserialize(data string) *TreeNode {
-	//elements:=strings.Split(data,",")
-	return &TreeNode{}
+	elements := strings.Split(data, ",")
+	root, _ := deserializeNode(elements)
+	return root
+}
+
+func deserializeNode(elements []string) (*TreeNode, []string) {
+	root := &TreeNode{}
+	if len(elements) > 0 {
+		value, err := strconv.Atoi(elements[0])
+		if err != nil {
+			return nil, elements[1:]
+		}
+		root.Val = value
+
+		var rightElementsString, otherLeafString []string
+		root.Left, rightElementsString = deserializeNode(elements[1:])
+		root.Right, otherLeafString = deserializeNode(rightElementsString)
+		return root, otherLeafString
+	}
+	return nil, []string{}
 }
 
 type TreeNode struct {
