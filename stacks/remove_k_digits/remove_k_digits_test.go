@@ -40,3 +40,9 @@ func TestRemoveKdigitsExample6(t *testing.T) {
 	result := removeKdigits("112", 2)
 	assert.Equal("1", result)
 }
+
+func TestRemoveKdigitsExample7(t *testing.T) {
+	assert := assert.New(t)
+	result := removeKdigits("10001", 4)
+	assert.Equal("0", result)
+}
