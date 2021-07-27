@@ -20,3 +20,15 @@ func TestCanFinishExample2(t *testing.T) {
 	result := canFinish(2, [][]int{{1, 0}, {0, 1}})
 	assert.Equal(false, result)
 }
+
+func TestCanFinishExample3(t *testing.T) {
+	assert := assert.New(t)
+	result := canFinish(5, [][]int{{1, 4}, {2, 4}, {3, 1}, {3, 2}})
+	assert.Equal(true, result)
+}
+
+func TestCanFinishExample4(t *testing.T) {
+	assert := assert.New(t)
+	result := canFinish(3, [][]int{{0, 1}, {0, 2}, {1, 2}})
+	assert.Equal(true, result)
+}
