@@ -14,6 +14,20 @@ func subsetsWithDup(nums []int) [][]int {
 				result = append(result, subSubNums)
 			}
 		}
+
+		subSubSubNums := make([]int, len(subNums))
+		copy(subSubSubNums, subNums)
+		for len(subSubSubNums) > 2 {
+			indexRemove := 1
+			subSubSubNums = append(subSubSubNums[:indexRemove], subSubSubNums[indexRemove+1:]...)
+			for i := range subSubSubNums {
+				subSubNums := subSubSubNums[0 : i+1]
+				if !hasDup(result, subSubNums) {
+					result = append(result, subSubNums)
+				}
+			}
+		}
+
 		left++
 	}
 
