@@ -1,5 +1,7 @@
 package subsets_2
 
+import "sort"
+
 func subsetsWithDup(nums []int) [][]int {
 	result := [][]int{{}}
 	left := 0
@@ -11,6 +13,7 @@ func subsetsWithDup(nums []int) [][]int {
 		for i := range subNums {
 			subSubNums := subNums[0 : i+1]
 			if !hasDup(result, subSubNums) {
+				sort.Ints(subSubNums)
 				result = append(result, subSubNums)
 			}
 		}
@@ -23,6 +26,7 @@ func subsetsWithDup(nums []int) [][]int {
 			resultItem := make([]int, len(subSubSubNums))
 			copy(resultItem, subSubSubNums)
 			if !hasDup(result, resultItem) {
+				sort.Ints(resultItem)
 				result = append(result, resultItem)
 			}
 		}
