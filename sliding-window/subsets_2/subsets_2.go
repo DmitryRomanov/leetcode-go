@@ -1,42 +1,27 @@
 package subsets_2
 
-import "sort"
+import (
+	"sort"
+)
 
 func subsetsWithDup(nums []int) [][]int {
-	result := [][]int{{}}
-	left := 0
-	right := len(nums)
-	//sort.Ints(nums)
+	var result [][]int
+	var variants []int
 
-	for right > left {
-		subNums := nums[left:right]
-
-		for i := range subNums {
-			subSubNums := subNums[0 : i+1]
-			if !hasDup(result, subSubNums) {
-				sort.Ints(subSubNums)
-				result = append(result, subSubNums)
+	count := 2 << len(nums)
+	for i := 0; i < int(count); i++ {
+		variants = []int{}
+		for j, v := range nums {
+			mask := 1 << j
+			if (i & mask) > 0 {
+				variants = append(variants, v)
 			}
 		}
-
-		subSubSubNums := make([]int, len(subNums))
-		copy(subSubSubNums, subNums)
-		for len(subSubSubNums) > 2 {
-			indexRemove := 1
-			if subSubSubNums[0] == subSubSubNums[1] {
-				indexRemove = 2
-			}
-
-			subSubSubNums = append(subSubSubNums[:indexRemove], subSubSubNums[indexRemove+1:]...)
-			resultItem := make([]int, len(subSubSubNums))
-			copy(resultItem, subSubSubNums)
-			if !hasDup(result, resultItem) {
-				sort.Ints(resultItem)
-				result = append(result, resultItem)
-			}
+		sort.Ints(variants)
+		if !hasDup(result, variants) {
+			result = append(result, variants)
 		}
 
-		left++
 	}
 
 	return result
