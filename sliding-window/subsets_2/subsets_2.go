@@ -6,6 +6,7 @@ func subsetsWithDup(nums []int) [][]int {
 	result := [][]int{{}}
 	left := 0
 	right := len(nums)
+	//sort.Ints(nums)
 
 	for right > left {
 		subNums := nums[left:right]
@@ -22,6 +23,10 @@ func subsetsWithDup(nums []int) [][]int {
 		copy(subSubSubNums, subNums)
 		for len(subSubSubNums) > 2 {
 			indexRemove := 1
+			if subSubSubNums[0] == subSubSubNums[1] {
+				indexRemove = 2
+			}
+
 			subSubSubNums = append(subSubSubNums[:indexRemove], subSubSubNums[indexRemove+1:]...)
 			resultItem := make([]int, len(subSubSubNums))
 			copy(resultItem, subSubSubNums)
