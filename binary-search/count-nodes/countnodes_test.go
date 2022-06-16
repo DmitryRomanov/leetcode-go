@@ -41,3 +41,34 @@ func TestCountNodesExample3(t *testing.T) {
 	})
 	assert.Equal(1, result)
 }
+
+func TestCountNodesExample4(t *testing.T) {
+	assert := assert.New(t)
+	result := countNodes(nil)
+	assert.Equal(0, result)
+}
+
+func TestCountNodesExample5(t *testing.T) {
+	assert := assert.New(t)
+	result := countNodes(&TreeNode{
+		Val: 1,
+		Left: &TreeNode{
+			Val: 2,
+		},
+	})
+	assert.Equal(2, result)
+}
+
+func TestCountNodesExample6(t *testing.T) {
+	assert := assert.New(t)
+	result := countNodes(&TreeNode{
+		Val: 1,
+		Left: &TreeNode{
+			Val: 2,
+		},
+		Right: &TreeNode{
+			Val: 3,
+		},
+	})
+	assert.Equal(3, result)
+}

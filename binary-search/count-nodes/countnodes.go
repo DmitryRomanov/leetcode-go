@@ -1,20 +1,13 @@
 package countnodes
 
 func countNodes(root *TreeNode) int {
-	if root.Right != nil {
-		return 2 * (1 + calculateByLeftNodes(root.Right))
+	if root == nil {
+		return 0
 	}
 
-	if root.Val != 0 {
-		return 1
+	if root.Val == 0 && root.Right == nil && root.Left == nil {
+		return 0
 	}
 
-	return 0
-}
-
-func calculateByLeftNodes(root *TreeNode) int {
-	if root.Left != nil {
-		return 1 + calculateByLeftNodes(root.Left)
-	}
-	return 1
+	return countNodes(root.Left) + countNodes(root.Right) + 1
 }
