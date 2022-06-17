@@ -31,7 +31,7 @@ func TestCountNodesExample1(t *testing.T) {
 func TestCountNodesExample2(t *testing.T) {
 	assert := assert.New(t)
 	result := countNodes(&TreeNode{})
-	assert.Equal(0, result)
+	assert.Equal(1, result)
 }
 
 func TestCountNodesExample3(t *testing.T) {
