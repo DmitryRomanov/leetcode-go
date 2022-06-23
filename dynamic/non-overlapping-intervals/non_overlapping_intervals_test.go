@@ -28,3 +28,11 @@ func TestEraseOverlapIntervalsExample3(t *testing.T) {
 	})
 	assert.Equal(0, result)
 }
+
+func TestEraseOverlapIntervalsExample4(t *testing.T) {
+	assert := assert.New(t)
+	result := eraseOverlapIntervals([][]int{
+		{1, 100}, {11, 22}, {1, 11}, {2, 12},
+	})
+	assert.Equal(2, result)
+}
