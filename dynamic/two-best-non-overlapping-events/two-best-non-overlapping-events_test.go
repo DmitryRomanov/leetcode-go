@@ -28,3 +28,11 @@ func TestMaxTwoEventsExample3(t *testing.T) {
 	})
 	assert.Equal(8, result)
 }
+
+func TestMaxTwoEventsExample4(t *testing.T) {
+	assert := assert.New(t)
+	result := maxTwoEvents([][]int{
+		{1, 1, 1}, {1, 1, 1},
+	})
+	assert.Equal(1, result)
+}

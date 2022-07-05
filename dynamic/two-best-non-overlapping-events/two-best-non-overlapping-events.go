@@ -8,11 +8,13 @@ type event struct {
 	value     int
 }
 
-func maxTwoEvents(events_array [][]int) int {
-	sort.Slice(events_array, func(i, j int) bool {
-		return events_array[i][0] < events_array[j][0]
-	})
+type EventsSortable []event
 
+func (a EventsSortable) Len() int           { return len(a) }
+func (a EventsSortable) Less(i, j int) bool { return a[i].startTime < a[j].startTime }
+func (a EventsSortable) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+
+func maxTwoEvents(events_array [][]int) int {
 	max := 0
 	events := make([]event, len(events_array))
 	for i := 0; i < len(events_array); i++ {
@@ -23,11 +25,22 @@ func maxTwoEvents(events_array [][]int) int {
 		}
 	}
 
+	sort.Sort(EventsSortable(events))
+
 	for i, event := range events {
-		idxOfClosestEvent := findClosestNonOverlapping(events, event.endTime, event.endTime, len(events)-1)
-		tmpMax := events[i].value + events[idxOfClosestEvent].value
-		if tmpMax > max {
-			max = tmpMax
+		idxOfClosestEvent := findClosestNonOverlapping(events, event.endTime, i, len(events)-1)
+		if idxOfClosestEvent >= len(events) {
+			tmpMax := event.value
+			if tmpMax > max {
+				max = tmpMax
+			}
+		} else {
+			for j := idxOfClosestEvent; j < len(events); j++ {
+				tmpMax := event.value + events[j].value
+				if tmpMax > max {
+					max = tmpMax
+				}
+			}
 		}
 	}
 
@@ -35,16 +48,14 @@ func maxTwoEvents(events_array [][]int) int {
 }
 
 func findClosestNonOverlapping(events []event, end, left, right int) int {
-	if right > left {
+	if right < left {
 		return left
 	}
 	median := (left + right) / 2
 
-	if events[median].endTime > end {
-		return findClosestNonOverlapping(events, end, median+1, right)
-	} else if events[median].endTime < end {
+	if end < events[median].startTime {
 		return findClosestNonOverlapping(events, end, left, median-1)
 	} else {
-		return median
+		return findClosestNonOverlapping(events, end, median+1, right)
 	}
 }
