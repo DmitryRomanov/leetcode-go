@@ -1,31 +1,29 @@
 package two_best_non_overlapping_events
 
-import "sort"
+import (
+	"sort"
+)
 
-type event struct {
+type Event struct {
 	startTime int
 	endTime   int
 	value     int
 }
 
-type EventsSortable []event
-
-func (a EventsSortable) Len() int           { return len(a) }
-func (a EventsSortable) Less(i, j int) bool { return a[i].startTime < a[j].startTime }
-func (a EventsSortable) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
-
 func maxTwoEvents(events_array [][]int) int {
 	max := 0
-	events := make([]event, len(events_array))
+	events := make([]Event, len(events_array))
 	for i := 0; i < len(events_array); i++ {
-		events[i] = event{
+		events[i] = Event{
 			startTime: events_array[i][0],
 			endTime:   events_array[i][1],
 			value:     events_array[i][2],
 		}
 	}
 
-	sort.Sort(EventsSortable(events))
+	sort.Slice(events, func(i, j int) bool {
+		return events[i].startTime < events[j].startTime
+	})
 
 	for i, event := range events {
 		idxOfClosestEvent := findClosestNonOverlapping(events, event.endTime, i, len(events)-1)
@@ -35,11 +33,14 @@ func maxTwoEvents(events_array [][]int) int {
 				max = tmpMax
 			}
 		} else {
-			for j := idxOfClosestEvent; j < len(events); j++ {
-				tmpMax := event.value + events[j].value
-				if tmpMax > max {
-					max = tmpMax
-				}
+			restEvents := make([]Event, len(events)-idxOfClosestEvent)
+			copy(restEvents, events[idxOfClosestEvent:])
+			sort.Slice(restEvents, func(i, j int) bool {
+				return restEvents[i].value > restEvents[j].value
+			})
+			tmpMax := event.value + restEvents[0].value
+			if tmpMax > max {
+				max = tmpMax
 			}
 		}
 	}
@@ -47,7 +48,7 @@ func maxTwoEvents(events_array [][]int) int {
 	return max
 }
 
-func findClosestNonOverlapping(events []event, end, left, right int) int {
+func findClosestNonOverlapping(events []Event, end, left, right int) int {
 	if right < left {
 		return left
 	}
