@@ -20,3 +20,11 @@ func TestCountBattleshipsExample2(t *testing.T) {
 	})
 	assert.Equal(0, result)
 }
+
+func TestCountBattleshipsExample3(t *testing.T) {
+	assert := assert.New(t)
+	result := countBattleships([][]byte{
+		{'X', '.', 'X'}, {'X', '.', 'X'},
+	})
+	assert.Equal(2, result)
+}

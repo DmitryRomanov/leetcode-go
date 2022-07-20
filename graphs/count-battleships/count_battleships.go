@@ -1,10 +1,28 @@
 package count_battleships
 
 func countBattleships(board [][]byte) (k int) {
-	for i := range board {
-		for j := range board[i] {
-			if board[i][j] == 'X' && ((i == 0 || board[i-1][j] != 'X') && (j == 0 || board[i][j-1] != 'X')) {
+	for row := 0; row < len(board); row++ {
+		for col := 0; col < len(board[row]); col++ {
+			if board[row][col] == 'X' {
+				board[row][col] = '.'
 				k++
+				if (col+1) < len(board[row]) && board[row][col+1] == 'X' {
+					// go right
+					col++
+					if (col) < len(board[row]) && board[row][col] == 'X' {
+						board[row][col] = '.'
+						col++
+					}
+				} else if (row+1) < len(board) && board[row+1][col] == 'X' {
+					// go down
+					row2 := row + 1
+					if row2 < len(board) && board[row2][col] == 'X' {
+						board[row2][col] = '.'
+						row2++
+					}
+				} else {
+					col++
+				}
 			}
 		}
 	}
