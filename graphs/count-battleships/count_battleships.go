@@ -9,14 +9,14 @@ func countBattleships(board [][]byte) (k int) {
 				if (col+1) < len(board[row]) && board[row][col+1] == 'X' {
 					// go right
 					col++
-					if (col) < len(board[row]) && board[row][col] == 'X' {
+					for (col) < len(board[row]) && board[row][col] == 'X' {
 						board[row][col] = '.'
 						col++
 					}
 				} else if (row+1) < len(board) && board[row+1][col] == 'X' {
 					// go down
 					row2 := row + 1
-					if row2 < len(board) && board[row2][col] == 'X' {
+					for row2 < len(board) && board[row2][col] == 'X' {
 						board[row2][col] = '.'
 						row2++
 					}
