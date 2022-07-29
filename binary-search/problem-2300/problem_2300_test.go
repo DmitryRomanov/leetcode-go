@@ -1,8 +1,9 @@
 package problem_2300
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestSuccessfulPairsExample1(t *testing.T) {
