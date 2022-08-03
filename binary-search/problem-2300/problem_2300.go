@@ -29,13 +29,11 @@ func indexGreaterThanValue(potions []int, searchValue int) int {
 	result := -1
 	for right >= left {
 		median = (left + right) / 2
-		if potions[median] > searchValue {
+		if potions[median] >= searchValue {
 			right = median - 1
 			result = median
 		} else if potions[median] < searchValue {
 			left = median + 1
-		} else {
-			return median
 		}
 	}
 	return result
