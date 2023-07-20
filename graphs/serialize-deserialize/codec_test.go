@@ -1,8 +1,9 @@
 package serialize_deserialize
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestExample1(t *testing.T) {
@@ -17,7 +18,7 @@ func TestExample1(t *testing.T) {
 			Val: 3,
 		},
 	}
-	ans := "2,1,null,null,3,null,null"
+	ans := "2,1,3"
 
 	ser := Constructor()
 	assert.Equal(ans, ser.serialize(root))
@@ -52,7 +53,7 @@ func TestSerializeExample2(t *testing.T) {
 		},
 	}
 
-	ans := "3,1,0,null,null,2,null,null,5,4,null,null,6,null,null"
+	ans := "3,1,5,0,2,4,6"
 
 	ser := Constructor()
 	assert.Equal(ans, ser.serialize(root))
@@ -71,4 +72,24 @@ func TestSerializeExample3(t *testing.T) {
 	deser := Constructor()
 	rootDeserialized := deser.deserialize(ans)
 	assert.Equal(rootDeserialized.Val, 41)
+}
+
+func TestExample4(t *testing.T) {
+	assert := assert.New(t)
+	ans := ""
+
+	deser := Constructor()
+	rootDeserialized := deser.deserialize(ans)
+
+	assert.Equal(ans, deser.serialize(rootDeserialized))
+}
+
+func TestExample5(t *testing.T) {
+	assert := assert.New(t)
+	ans := "0"
+
+	deser := Constructor()
+	rootDeserialized := deser.deserialize(ans)
+
+	assert.Equal(ans, deser.serialize(rootDeserialized))
 }

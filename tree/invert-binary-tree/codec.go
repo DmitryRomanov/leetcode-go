@@ -1,4 +1,4 @@
-package serialize_deserialize
+package invert_binary_tree
 
 import (
 	"fmt"
