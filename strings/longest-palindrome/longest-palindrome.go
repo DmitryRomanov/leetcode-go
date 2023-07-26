@@ -2,19 +2,18 @@
 package longest_palindrome
 
 func longestPalindrome(s string) int {
-	var counts [58]int
-	for _, v := range s {
-		counts[int(v-'A')]++
-	}
+	var seen [58]bool
 	result := 0
-	for _, v := range counts {
-		if v == 0 {
+	for _, v := range s {
+		if seen[int(v-'A')] {
+			result += 2
+			seen[int(v-'A')] = false
 			continue
 		}
-		result += v / 2 * 2
-		if result%2 == 0 && v%2 == 1 {
-			result++
-		}
+		seen[int(v-'A')] = true
+	}
+	if len(s) > result {
+		result++
 	}
 	return result
 }
