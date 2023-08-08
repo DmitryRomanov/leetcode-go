@@ -43,6 +43,10 @@ func (codec *Codec) deserialize(data string) *TreeNode {
 			break
 		}
 
+		if elements[i] == "null" {
+			continue
+		}
+
 		value, _ = strconv.Atoi(elements[i])
 		current.Right = &TreeNode{
 			Val: value,

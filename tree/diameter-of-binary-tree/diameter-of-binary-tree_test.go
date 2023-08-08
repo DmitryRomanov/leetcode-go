@@ -35,3 +35,22 @@ func TestExample3(t *testing.T) {
 	diameter := diameterOfBinaryTree(rootDeserialized)
 	assert.Equal(0, diameter)
 }
+
+func TestExample4(t *testing.T) {
+	assert := assert.New(t)
+	in := "2,3,null,1"
+
+	codec := Constructor()
+	rootDeserialized := codec.deserialize(in)
+	diameter := diameterOfBinaryTree(rootDeserialized)
+	assert.Equal(2, diameter)
+}
+
+func TestCodecWithNull(t *testing.T) {
+	assert := assert.New(t)
+	in := "2,3,null,1"
+
+	codec := Constructor()
+	rootDeserialized := codec.deserialize(in)
+	assert.True(rootDeserialized.Right == nil)
+}

@@ -2,38 +2,26 @@
 package diameter_of_binary_tree
 
 func diameterOfBinaryTree(root *TreeNode) int {
-	if root == nil {
-		return 0
-	}
-
-	max := func(a [3]int) int {
-		max := 0
-		for _, v := range a {
-			if v > max {
-				max = v
-			}
+	result := 0
+	var dfs func(node *TreeNode) int
+	dfs = func(node *TreeNode) int {
+		if node == nil {
+			return 0
 		}
-		return max
-	}
+		left := dfs(node.Left)
+		right := dfs(node.Right)
 
-	return max([3]int{
-		depth(root.Left) +
-			depth(root.Right),
-		diameterOfBinaryTree(root.Left), diameterOfBinaryTree(root.Right),
-	})
+		result = max(result, left+right)
+		return 1 + max(left, right)
+	}
+	dfs(root)
+	return result
 }
 
-func depth(root *TreeNode) int {
-	if root == nil {
-		return 0
+func max(a, b int) int {
+	if a > b {
+		return a
+	} else {
+		return b
 	}
-
-	max := func(a, b int) int {
-		if a > b {
-			return a
-		} else {
-			return b
-		}
-	}
-	return 1 + max(depth(root.Left), depth(root.Right))
 }
