@@ -1,8 +1,6 @@
 // https://leetcode.com/problems/01-matrix/description/
 package matrix_01
 
-import "math"
-
 func updateMatrix(mat [][]int) [][]int {
 	result := [][]int{}
 	queue := [][]int{}
@@ -12,7 +10,7 @@ func updateMatrix(mat [][]int) [][]int {
 			if mat[i][j] == 0 {
 				i_result = append(i_result, 0)
 			} else {
-				i_result = append(i_result, math.MaxInt32)
+				i_result = append(i_result, len(mat))
 				queue = append(queue, []int{i, j})
 			}
 		}
@@ -40,7 +38,10 @@ func updateMatrix(mat [][]int) [][]int {
 
 				if result_in_new_direction < current_result {
 					result[cur_i][cur_j] = result_in_new_direction
-					queue = append(queue, []int{i, j})
+					queue = append(queue, []int{i, j + 1})
+					queue = append(queue, []int{i, j - 1})
+					queue = append(queue, []int{i + 1, j})
+					queue = append(queue, []int{i - 1, j})
 				}
 			}
 
