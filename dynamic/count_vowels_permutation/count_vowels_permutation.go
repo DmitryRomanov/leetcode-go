@@ -10,6 +10,8 @@ func countVowelPermutation(n int) int {
 		"u": {"a"},
 	}
 
+	mod := int(1e9 + 7)
+
 	dp := make([]map[string]int, 0, n)
 
 	for i := 0; i < n; i++ {
@@ -21,6 +23,7 @@ func countVowelPermutation(n int) int {
 				curDp[sym] = 0
 				for _, rule := range curRules {
 					curDp[sym] += dp[i-1][rule]
+					curDp[sym] = curDp[sym] % mod
 				}
 			}
 		}
@@ -33,5 +36,5 @@ func countVowelPermutation(n int) int {
 		result += val
 	}
 
-	return result % (1e9 + 7)
+	return result % mod
 }
