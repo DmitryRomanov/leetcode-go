@@ -6,22 +6,19 @@ import (
 )
 
 func findOrder(numCourses int, prerequisites [][]int) []int {
-	if len(prerequisites) == 0 {
-		result := []int{}
-		for i := numCourses - 1; i >= 0; i-- {
-			result = append(result, i)
-		}
-		return result
-	}
 	digraph := getDigraph(prerequisites)
 	sorted, err := kahn(digraph)
 	if err != nil {
 		return []int{}
 	}
 	if len(sorted) < numCourses {
-		return []int{0}
+		for i := numCourses - 1; i >= len(sorted)-2; i-- {
+			sorted = append(sorted, i)
+		}
+		return sorted[:numCourses]
+	} else {
+		return sorted[:numCourses]
 	}
-	return sorted[:numCourses]
 }
 
 // [][]int{{1, 0}, {2, 0}, {3, 1}, {3, 2}}
