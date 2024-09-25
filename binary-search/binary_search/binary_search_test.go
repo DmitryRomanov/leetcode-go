@@ -8,7 +8,10 @@ import (
 
 func TestSearchExample1(t *testing.T) {
 	assert := assert.New(t)
-	result := search([]int{-1, 0, 3, 5, 9, 12}, 9)
+	result := search(
+		[]int{-1, 0, 3, 5, 9, 12},
+		9,
+	)
 	assert.Equal(4, result)
 }
 
