@@ -1,6 +1,9 @@
 package twosum
 
-import "math"
+import (
+	"fmt"
+	"math"
+)
 
 func twoSum(numbers []int, target int) []int {
 	for i := 0; i < len(numbers); i++ {
